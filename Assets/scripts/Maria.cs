@@ -66,6 +66,12 @@ public class Maria : MonoBehaviour
         
         
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        
        
+    }
+    // funcion daño al jugador
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Player took " + damage + " damage");
     }
 }
