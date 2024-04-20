@@ -11,6 +11,7 @@ public class Maria : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Probando desde branch test");
         animator = GetComponent<Animator>(); // Obtener el Animator Controller del GameObject
     }
     

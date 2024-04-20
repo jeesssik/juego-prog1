@@ -22,7 +22,8 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Debug.Log("no estoy tocando al jugador");
+           // Debug.Log("no estoy tocando al jugador"); // funciona este msj
+           
         }
     }
     
