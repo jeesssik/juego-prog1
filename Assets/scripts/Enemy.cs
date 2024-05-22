@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
         Maria player = other.gameObject.GetComponent<Maria>();
         if (player != null)
         {
-            player.TakeDamage(damage * Time.fixedDeltaTime);  // fixed delta time es el tiempo que tarda en ejecutarse un frame
+           // player.TakeDamage(damage * Time.fixedDeltaTime);  // fixed delta time es el tiempo que tarda en ejecutarse un frame
         }
         else
         {
