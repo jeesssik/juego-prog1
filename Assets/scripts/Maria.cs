@@ -8,9 +8,9 @@ public class Maria : MonoBehaviour
     [SerializeField] private Transform camera;
 
     // Configuración de movimiento
-    public float rotationSpeed = 10f; // Velocidad de rotación del personaje
-    public float speed = 1f; // Velocidad de movimiento del personaje
-    [SerializeField] private float turningSpeed = 2f;
+    public float rotationSpeed = 80f; // Velocidad de rotación del personaje
+    public float speed = 2f; // Velocidad de movimiento del personaje
+    //[SerializeField] private float turningSpeed = 2f;
 
     void Start()
     {
@@ -27,6 +27,7 @@ public class Maria : MonoBehaviour
         // Rotar el personaje sobre su eje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
+        
         // Calcular el movimiento del personaje hacia adelante y hacia atrás
         Vector3 movement = transform.forward * verticalInput * speed * Time.deltaTime;
 
