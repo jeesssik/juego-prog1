@@ -9,7 +9,7 @@ public class Maria : MonoBehaviour
 
     // Configuración de movimiento
     public float rotationSpeed = 10f; // Velocidad de rotación del personaje
-    public float speed = 2.5f; // Velocidad de movimiento del personaje
+    public float speed = 1f; // Velocidad de movimiento del personaje
     [SerializeField] private float turningSpeed = 2f;
 
     void Start()
