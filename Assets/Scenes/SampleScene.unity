@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 80fa4f34db87aad4d93c45188b19bfd6, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 94d852a7748a347489661febea5eafc6, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.35775155, g: 0.73686606, b: 0.9810811, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1001,7 +1001,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493926351}
-  m_LocalRotation: {x: 0.03461126, y: -0.0029079954, z: 0.0011254506, w: 0.999396}
+  m_LocalRotation: {x: 0.03461124, y: -0.0029080417, z: 0.0011254686, w: 0.999396}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1469,7 +1469,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084792974}
-  m_LocalRotation: {x: -0.004846841, y: 0.00451692, z: -0.0015461538, w: 0.99997693}
+  m_LocalRotation: {x: -0.004846841, y: 0.004516865, z: -0.0015461349, w: 0.99997693}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1774,7 +1774,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 50784141}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1159053973
+--- !u!114 &1159053975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1786,9 +1786,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d9bee01c365f249ae9a35f26713aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
   rotationSpeed: 80
   speed: 2
+  jumpForce: 45
+  gravityScale: 2
 --- !u!1 &1199576654
 GameObject:
   m_ObjectHideFlags: 3
@@ -1865,7 +1866,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199576654}
-  m_LocalRotation: {x: 0.054135263, y: 0.008279852, z: -0.0033919804, w: 0.99849355}
+  m_LocalRotation: {x: 0.054135278, y: 0.008279916, z: -0.0033920063, w: 0.99849355}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2014,7 +2015,7 @@ GameObject:
   - component: {fileID: 1295181329}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -2367,7 +2368,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607028580}
-  m_LocalRotation: {x: 0.30604526, y: 0.000000023165903, z: -0.000000007447152, w: 0.952017}
+  m_LocalRotation: {x: 0.30604526, y: -0.000000023165908, z: 0.000000007447153, w: 0.952017}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
