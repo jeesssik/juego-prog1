@@ -109,6 +109,9 @@ public class Maria : MonoBehaviour
             animator.SetTrigger("Attack");
             isAttacking = false;
             attackIndex++;
+            if(!isGrounded)
+            {Debug.Log("NO TOCA EL PISOOOOOOOOOO");
+            }
             
             if (attackIndex > 2)
             {
