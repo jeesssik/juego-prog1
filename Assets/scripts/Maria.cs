@@ -4,6 +4,8 @@ public class Maria : MonoBehaviour
 {
     private Animator animator; // Referencia al Animator Controller
     private Rigidbody rb;  // Referencia al Rigidbody del personaje
+    private int attackIndex = 1; // marca la rotación de las diferentes animaciones de ataque
+    private bool isAttacking = false; // marca si el personaje está atacando
     
     // Configuración de movimiento
     public float rotationSpeed = 80f; // Velocidad de rotación del personaje
@@ -71,7 +73,6 @@ public class Maria : MonoBehaviour
         
         // Rotar el personaje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
-
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
     
         // salto del personaje
@@ -97,8 +98,30 @@ public class Maria : MonoBehaviour
              rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
          }
          
-        
         animator.SetBool("isGrounded", isGrounded);
+        
+        //Detección del boton izquierdo para atacar
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        {
+            isAttacking = true;
+            Debug.Log("Ataque" + attackIndex);
+            animator.SetInteger("AttackIndex", attackIndex);
+            animator.SetTrigger("Attack");
+            isAttacking = false;
+            attackIndex++;
+            
+            if (attackIndex > 2)
+            {
+                attackIndex = 1;
+            }
+        }
+        
+    }
+    
+    // metodo para llamar al final de cada ataque
+   public void ResetAttack()
+    {
+        isAttacking = false;
     }
     
     //funcion para detectar si el juegador está tocando el suelo
@@ -106,7 +129,7 @@ public class Maria : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("Maria está en el suelo");
+           // Debug.Log("Maria está en el suelo");
             isGrounded = true;
         }
     }
