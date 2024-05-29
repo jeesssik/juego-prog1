@@ -3,17 +3,17 @@ using UnityEngine;
 public class Maria : MonoBehaviour
 {
     private Animator animator; // Referencia al Animator Controller
-    private Rigidbody rb;  // Referencia al Rigidbody del personaje
+    private Rigidbody rb; // Referencia al Rigidbody del personaje
     private int attackIndex = 1; // marca la rotación de las diferentes animaciones de ataque
     private bool isAttacking = false; // marca si el personaje está atacando
-    
+
     // Configuración de movimiento
     public float rotationSpeed = 80f; // Velocidad de rotación del personaje
     public float speed = 2f; // Velocidad de movimiento del personaje
     private bool isGrounded;
-    public float jumpForce = 45f;  // Fuerza de salto del personaje
+    public float jumpForce = 45f; // Fuerza de salto del personaje
     public float gravityScale = 10f; // Gravedad del personaje
-    
+
     void Start()
     {
         Debug.Log("Probando desde branch test");
@@ -23,6 +23,52 @@ public class Maria : MonoBehaviour
 
     void Update()
     {
+        Move();
+        Attack();
+
+    }
+
+    // Función de ataque del personaje
+    void Attack()
+    {
+        //Detección del boton izquierdo para atacar
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        {
+            isAttacking = true;
+            Debug.Log("Ataque" +  isAttacking);
+            animator.SetInteger("AttackIndex", attackIndex);
+            animator.SetTrigger("Attack");
+            isAttacking = false;
+            
+            // acá tengo que llamar o hacer algo con el daño que causa el ataque
+            
+            attackIndex++;
+            Debug.Log("Ataque" +  isAttacking);
+            // *** a veces las animaciones de ataque me despegaban del piso
+            /*if (!isGrounded)
+            {
+                Debug.Log("NO TOCA EL PISOOOOOOOOOO");
+            }*/
+
+            if (attackIndex > 2)
+            {
+                attackIndex = 1;
+            }
+        }
+        
+        // metodo para llamar al final de cada ataque
+       /* void ResetAttack()
+        {
+            isAttacking = false;
+            Debug.Log("Ataque" + isAttacking);
+        }*/
+
+    }
+
+
+    // Fun mivimiento personaje
+    void Move()
+    {
         // Obtener la entrada del teclado
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -30,7 +76,7 @@ public class Maria : MonoBehaviour
         // Rotar el personaje sobre su eje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
-        
+
         // Calcular el movimiento del personaje hacia adelante y hacia atrás
         Vector3 movement = transform.forward * verticalInput * speed * Time.deltaTime;
 
@@ -70,62 +116,40 @@ public class Maria : MonoBehaviour
             animator.SetBool("turnL", false);
             animator.SetBool("turnR", false);
         }
-        
+
         // Rotar el personaje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-    
+
         // salto del personaje
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             //Debug.Log("Maria Jump");
             animator.SetTrigger("jump");
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);  // 5f es la fuerza con la que se va a impulsar el personaje al saltar
+            rb.AddForce(Vector3.up * jumpForce,
+                ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
             isGrounded = false;
-        } 
-        
-        // aplicar moviento al personaje si cuando salto tengo presionado alguna tecla de movimiento
-          if (!isGrounded && (horizontalInput != 0 || verticalInput != 0))
-          {
-              Debug.Log("Salto con movimiento");
-              Vector3 airMovement = new Vector3(horizontalInput, 0, verticalInput) * speed * Time.deltaTime;
-              rb.AddForce(airMovement, ForceMode.Acceleration);
-          }
-                 
-         //aplico gravedad al personaje cuando esté en el aire
-         if(!isGrounded)
-         {
-             rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
-         }
-         
-        animator.SetBool("isGrounded", isGrounded);
-        
-        //Detección del boton izquierdo para atacar
-        if (Input.GetMouseButtonDown(0) && !isAttacking)
-        {
-            isAttacking = true;
-            Debug.Log("Ataque" + attackIndex);
-            animator.SetInteger("AttackIndex", attackIndex);
-            animator.SetTrigger("Attack");
-            isAttacking = false;
-            attackIndex++;
-            if(!isGrounded)
-            {Debug.Log("NO TOCA EL PISOOOOOOOOOO");
-            }
-            
-            if (attackIndex > 2)
-            {
-                attackIndex = 1;
-            }
         }
-        
+
+        // aplicar moviento al personaje si cuando salto tengo presionado alguna tecla de movimiento
+        if (!isGrounded && (horizontalInput != 0 || verticalInput != 0))
+        {
+            Debug.Log("Salto con movimiento");
+            Vector3 airMovement = new Vector3(horizontalInput, 0, verticalInput) * speed * Time.deltaTime;
+            rb.AddForce(airMovement, ForceMode.Acceleration);
+        }
+
+        //aplico gravedad al personaje cuando esté en el aire
+        if (!isGrounded)
+        {
+            rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
+        }
+
+        animator.SetBool("isGrounded", isGrounded);
     }
     
-    // metodo para llamar al final de cada ataque
-   public void ResetAttack()
-    {
-        isAttacking = false;
-    }
+
+
     
     //funcion para detectar si el juegador está tocando el suelo
     void OnCollisionEnter(Collision collision)
@@ -138,7 +162,7 @@ public class Maria : MonoBehaviour
     }
 
     // Función de daño al jugador
-    public void TakeDamage(float damage)
+    void TakeDamage(float damage)
     {
         Debug.Log("Player took " + damage + " damage");
     }
