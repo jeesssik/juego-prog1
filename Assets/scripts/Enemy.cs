@@ -1,52 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-/*
-public class Enemy : MonoBehaviour
-{
-    [SerializeField] private float damage = 1;
-
-    private void OnCollisionEnter(Collision other)  //entro a la colision
-    {
-        Debug.Log("Colision inicio ");
-    }
-
-    private void OnCollisionStay(Collision other)  //colision en curso
-    {
-        //Debug.Log("Colision stay " );
-        Maria player = other.gameObject.GetComponent<Maria>();
-        if (player != null)
-        {
-           // player.TakeDamage(damage * Time.fixedDeltaTime);  // fixed delta time es el tiempo que tarda en ejecutarse un frame
-        }
-        else
-        {
-           // Debug.Log("no estoy tocando al jugador"); // funciona este msj
-           
-        }
-    }
-    
-    private void OnCollisionExit(Collision other)   //salida de la colision
-    {
-        Debug.Log("sali de la colision");
-    }
-
-  
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
-*/
-
 
 using System;
 using System.Collections;
@@ -63,18 +14,24 @@ public class Enemy : MonoBehaviour
     public float attackRange = 2f; // Rango de ataque del enemigo
     public LayerMask detectionLayer; // Capas a considerar en la detección
 
+    private bool isThreatening = false;
+    private Animator animator;
     private NavMeshAgent navMeshAgent;
     private bool isChasing = false;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>(); // Obtener la referencia al NavMeshAgent
-        
+        animator =GetComponent<Animator>();  // hago referencia al animator para que funcionen las animaciones
     }
 
     private void Update()
     {
-        DetectPlayer();
+        if (!isChasing)
+        {
+            DetectPlayer();
+        }
+        
     }
 
     private void DetectPlayer()
@@ -90,19 +47,25 @@ public class Enemy : MonoBehaviour
                 if (hit.collider.transform == player)
                 {
                     isChasing = true;
+                    isThreatening = true;
+                    animator.SetBool("isThreatening", isThreatening);
                     MoveTowardsPlayer(distanceToPlayer);
+                    
                 }
             }
         }
 
-        if (isChasing)
+        if (isChasing && distanceToPlayer > maxChaseDistance)
         {
-            if (distanceToPlayer > maxChaseDistance)
-            {
+            
                 isChasing = false; // Deja de perseguir si el jugador está fuera del alcance
                 navMeshAgent.ResetPath(); // Detener el movimiento del enemigo
-            }
+                isThreatening = false;
+                animator.SetBool("isThreatening", isThreatening);
+            
         }
+
+        
     }
 
     private void MoveTowardsPlayer(float distanceToPlayer)
