@@ -13,7 +13,9 @@ public class Maria : MonoBehaviour
     private bool isGrounded;
     public float jumpForce = 45f; // Fuerza de salto del personaje
     public float gravityScale = 10f; // Gravedad del personaje
-
+    public float runSpeed = 4f; // Velocidad de movimiento del personaje cuando corre
+    
+    
     void Start()
     {
         Debug.Log("Probando desde branch test");
@@ -72,31 +74,37 @@ public class Maria : MonoBehaviour
         // Obtener la entrada del teclado
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+        bool isRunning = Input.GetKey(KeyCode.LeftShift); // Detectar si se está presionando la tecla Shift para correr
+
+        // Ajustar la velocidad según si el personaje está corriendo o caminando
+        float currentSpeed = isRunning ? runSpeed : speed;
 
         // Rotar el personaje sobre su eje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
-
         // Calcular el movimiento del personaje hacia adelante y hacia atrás
-        Vector3 movement = transform.forward * verticalInput * speed * Time.deltaTime;
+        Vector3 movement = transform.forward * verticalInput * currentSpeed * Time.deltaTime;
 
         // Aplicar el movimiento al personaje
         transform.Translate(movement, Space.World);
 
-        // Controlar las animaciones según la dirección del movimiento
+        // Controlar las animaciones según la dirección del movimiento y si está corriendo
         if (verticalInput > 0f) // Hacia adelante
         {
-            animator.SetBool("walk", true);
+            animator.SetBool("walk", !isRunning);
+            animator.SetBool("Run", isRunning);
             animator.SetBool("backward", false);
         }
         else if (verticalInput < 0f) // Hacia atrás
         {
             animator.SetBool("walk", false);
+            animator.SetBool("Run", false);
             animator.SetBool("backward", true);
         }
         else
         {
             animator.SetBool("walk", false);
+            animator.SetBool("Run", false);
             animator.SetBool("backward", false);
         }
 
@@ -118,8 +126,13 @@ public class Maria : MonoBehaviour
         }
 
         // Rotar el personaje
-        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        if (horizontalInput != 0)
+        {
+            transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
+
+            //transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        }
 
         // salto del personaje
         if (Input.GetButtonDown("Jump") && isGrounded)
