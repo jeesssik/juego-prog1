@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
     public float attackRange = 2f; // Rango de ataque del enemigo
     public LayerMask detectionLayer; // Capas a considerar en la detección
-    private int attackIndex= 1;
+    private int attackIndex = 1;
     private Vector3 originalPosition; // Posición original del enemigo
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -27,11 +27,11 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!isChasing && !isReturning)
+        if (!isChasing && !isReturning && !isAttacking)
         {
             DetectPlayer();
         }
-        
+
         if (isChasing)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -39,13 +39,18 @@ public class Enemy : MonoBehaviour
             {
                 StopChasing();
             }
+            else if (distanceToPlayer <= attackRange)
+            {
+                isChasing = false;
+                Attack(); // Atacar si está dentro del rango de ataque
+            }
             else
             {
                 RotateTowards(player.position);
                 MoveTowardsPlayer();
             }
         }
-        
+
         // Verifica si el enemigo ha llegado a su posición original
         if (isReturning && !navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
         {
@@ -61,7 +66,6 @@ public class Enemy : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange)
         {
-            Debug.Log("Jugador dentro del rango de detección del enemigo.");
             RaycastHit hit;
             if (Physics.Raycast(transform.position, directionToPlayer.normalized, out hit, detectionRange, detectionLayer))
             {
@@ -69,6 +73,8 @@ public class Enemy : MonoBehaviour
                 {
                     if (distanceToPlayer <= attackRange && !isAttacking)
                     {
+                        Debug.Log("Debería estar atacando al jugador.");
+                        isChasing = false;
                         Attack(); // Llama a la función de ataque si está dentro del rango de ataque
                     }
                     else if (distanceToPlayer > attackRange)
@@ -78,9 +84,6 @@ public class Enemy : MonoBehaviour
                         StartCoroutine(WaitAndChase(1.5f)); // Esperar duración de la animación de amenaza antes de perseguir
                     }
                 }
-            }else
-            {
-                Debug.Log("Jugador fuera del rango de detección del enemigo.");
             }
         }
 
@@ -90,8 +93,6 @@ public class Enemy : MonoBehaviour
             StopChasing();
         }
     }
-    
-    
 
     private void StopChasing()
     {
@@ -136,11 +137,12 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
-        
-       ///////////////////////// Debug.Log("Atacando al jugador");
         if (!isAttacking)
         {
             isAttacking = true;
+            navMeshAgent.isStopped = true; // Detener el movimiento del enemigo
+
+            Debug.Log("Atacando al jugador");
 
             if (attackIndex == 1)
             {
@@ -160,31 +162,33 @@ public class Enemy : MonoBehaviour
     private void ResetAttack()
     {
         isAttacking = false;
-    }
-    
-    // Métodos de colisión
-    private void OnCollisionEnter(Collision other) //entro a la colision
-    {
-        //////////////////////Debug.Log("Colisión con el jugador detectada. Iniciando ataque...");
-       
-        Attack();
+        navMeshAgent.isStopped = false; // Reanudar el movimiento del enemigo
     }
 
-    private void OnCollisionStay(Collision other) //colision en curso
+    // Métodos de colisión
+    private void OnCollisionEnter(Collision other)
     {
-        Maria player = other.gameObject.GetComponent<Maria>();
-        if (player != null)
+        if (other.gameObject.CompareTag("Player"))
         {
-           ///////////// Debug.Log("Colisión continua con el jugador detectada. Iniciando ataque...");
-            
+            Debug.Log("Colisión con el jugador detectada. Iniciando ataque...");
             Attack();
-            // player.TakeDamage(damage * Time.fixedDeltaTime); // fixed delta time es el tiempo que tarda en ejecutarse un frame
         }
     }
 
-    //** Acá tiene que buscar si el jugador está dentro de la distancia aceptable para volver a perseguir
-    private void OnCollisionExit(Collision other) //salida de la colision
+    private void OnCollisionStay(Collision other)
     {
-//        Debug.Log("sali de la colision");
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Colisión continua con el jugador detectada. Iniciando ataque...");
+            Attack();
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Saliendo de la colisión con el jugador...");
+        }
     }
 }
