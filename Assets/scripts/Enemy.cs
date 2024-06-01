@@ -137,6 +137,7 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
+        Debug.Log("Estoy en la función de Attack");
         if (!isAttacking)
         {
             isAttacking = true;
@@ -146,12 +147,16 @@ public class Enemy : MonoBehaviour
 
             if (attackIndex == 1)
             {
+                Debug.Log("Estoy llamando a la animación de ataque 1");
                 animator.SetTrigger("Attack1Trigger");
+                animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 2;
             }
             else
             {
+                Debug.Log("Estoy llamando a la animación de ataque 2");
                 animator.SetTrigger("Attack2Trigger");
+                animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 1;
             }
 
