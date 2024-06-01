@@ -10,11 +10,12 @@ public class Enemy : MonoBehaviour
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
     public float attackRange = 2f; // Rango de ataque del enemigo
     public LayerMask detectionLayer; // Capas a considerar en la detección
-
+    private int attackIndex = 1;
     private Vector3 originalPosition; // Posición original del enemigo
     private Animator animator;
     private NavMeshAgent navMeshAgent;
     private bool isChasing = false;
+    private bool isAttacking = false;
     private bool isReturning = false;
 
     private void Start()
@@ -26,17 +27,30 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (!isChasing && !isReturning)
+        if (!isChasing && !isReturning && !isAttacking)
         {
             DetectPlayer();
         }
-        
+
         if (isChasing)
         {
-            RotateTowards(player.position);
-            MoveTowardsPlayer();
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > maxChaseDistance)
+            {
+                StopChasing();
+            }
+            else if (distanceToPlayer <= attackRange)
+            {
+                isChasing = false;
+                Attack(); // Atacar si está dentro del rango de ataque
+            }
+            else
+            {
+                RotateTowards(player.position);
+                MoveTowardsPlayer();
+            }
         }
-        
+
         // Verifica si el enemigo ha llegado a su posición original
         if (isReturning && !navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
         {
@@ -57,9 +71,18 @@ public class Enemy : MonoBehaviour
             {
                 if (hit.collider.transform == player)
                 {
-                    isChasing = true;
-                    animator.SetTrigger("isThreatening");
-                    StartCoroutine(WaitAndChase(1.5f)); // Esperar duración de la animación de amenaza antes de perseguir
+                    if (distanceToPlayer <= attackRange && !isAttacking)
+                    {
+                        Debug.Log("Debería estar atacando al jugador.");
+                        isChasing = false;
+                        Attack(); // Llama a la función de ataque si está dentro del rango de ataque
+                    }
+                    else if (distanceToPlayer > attackRange)
+                    {
+                        isChasing = true;
+                        animator.SetTrigger("isThreatening");
+                        StartCoroutine(WaitAndChase(1.5f)); // Esperar duración de la animación de amenaza antes de perseguir
+                    }
                 }
             }
         }
@@ -112,28 +135,65 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void AttackPlayer()
+    private void Attack()
     {
-        // Implementa el comportamiento de ataque
-        Debug.Log("Atacando al jugador");
-    }
-
-    // Métodos de colisión
-    private void OnCollisionEnter(Collision other) //entro a la colision
-    {
-    }
-
-    private void OnCollisionStay(Collision other) //colision en curso
-    {
-        Maria player = other.gameObject.GetComponent<Maria>();
-        if (player != null)
+        Debug.Log("Estoy en la función de Attack");
+        if (!isAttacking)
         {
-            // player.TakeDamage(damage * Time.fixedDeltaTime); // fixed delta time es el tiempo que tarda en ejecutarse un frame
+            isAttacking = true;
+            navMeshAgent.isStopped = true; // Detener el movimiento del enemigo
+
+            Debug.Log("Atacando al jugador");
+
+            if (attackIndex == 1)
+            {
+                Debug.Log("Estoy llamando a la animación de ataque 1");
+                animator.SetTrigger("Attack1Trigger");
+                animator.SetInteger("attackIndex", attackIndex);
+                attackIndex = 2;
+            }
+            else
+            {
+                Debug.Log("Estoy llamando a la animación de ataque 2");
+                animator.SetTrigger("Attack2Trigger");
+                animator.SetInteger("attackIndex", attackIndex);
+                attackIndex = 1;
+            }
+
+            Invoke("ResetAttack", 1f); // Suponiendo que la duración del ataque es de 1 segundo
         }
     }
 
-    private void OnCollisionExit(Collision other) //salida de la colision
+    private void ResetAttack()
     {
-        Debug.Log("sali de la colision");
+        isAttacking = false;
+        navMeshAgent.isStopped = false; // Reanudar el movimiento del enemigo
+    }
+
+    // Métodos de colisión
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Colisión con el jugador detectada. Iniciando ataque...");
+            Attack();
+        }
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Colisión continua con el jugador detectada. Iniciando ataque...");
+            Attack();
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Saliendo de la colisión con el jugador...");
+        }
     }
 }

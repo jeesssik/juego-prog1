@@ -74,7 +74,7 @@ public class Maria : MonoBehaviour
         // Obtener la entrada del teclado
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        bool isRunning = Input.GetKey(KeyCode.LeftShift); // Detectar si se está presionando la tecla Shift para correr
+        bool isRunning = Input.GetKey(KeyCode.RightShift); // Detectar si se está presionando la tecla Shift para correr
 
         // Ajustar la velocidad según si el personaje está corriendo o caminando
         float currentSpeed = isRunning ? runSpeed : speed;
