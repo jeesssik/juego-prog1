@@ -139,8 +139,7 @@ public class Maria : MonoBehaviour
         {
             //Debug.Log("Maria Jump");
             animator.SetTrigger("jump");
-            rb.AddForce(Vector3.up * jumpForce,
-                ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
+            rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
             isGrounded = false;
         }
 

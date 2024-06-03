@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (distanceToPlayer <= attackRange && !isAttacking)
                     {
-                        Debug.Log("Debería estar atacando al jugador.");
+                        //Debug.Log("Debería estar atacando al jugador.");
                         isChasing = false;
                         Attack(); // Llama a la función de ataque si está dentro del rango de ataque
                     }
@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
-        Debug.Log("Estoy en la función de Attack");
+       // Debug.Log("Estoy en la función de Attack");
         if (!isAttacking)
         {
             isAttacking = true;
@@ -147,20 +147,30 @@ public class Enemy : MonoBehaviour
 
             if (attackIndex == 1)
             {
-                Debug.Log("Estoy llamando a la animación de ataque 1");
+               // Debug.Log("Estoy llamando a la animación de ataque 1");
                 animator.SetTrigger("Attack1Trigger");
                 animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 2;
             }
             else
             {
-                Debug.Log("Estoy llamando a la animación de ataque 2");
+                //Debug.Log("Estoy llamando a la animación de ataque 2");
                 animator.SetTrigger("Attack2Trigger");
                 animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 1;
             }
 
             Invoke("ResetAttack", 1f); // Suponiendo que la duración del ataque es de 1 segundo
+        }
+    }
+    
+    //funci´pon que hace daño al jugador
+    private void DoDamage()
+    {
+        if(Vector3.Distance(transform.position, player.position) <= attackRange)
+        {
+            Debug.Log("Haciendo daño al jugador");
+            //player.GetComponent<Player>().TakeDamage(damage);
         }
     }
 
