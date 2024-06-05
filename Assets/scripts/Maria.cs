@@ -45,17 +45,15 @@ public class Maria : MonoBehaviour
             // acá tengo que llamar o hacer algo con el daño que causa el ataque
             
             attackIndex++;
-            Debug.Log("Ataque" +  isAttacking);
-            // *** a veces las animaciones de ataque me despegaban del piso
-            /*if (!isGrounded)
-            {
-                Debug.Log("NO TOCA EL PISOOOOOOOOOO");
-            }*/
 
             if (attackIndex > 2)
             {
                 attackIndex = 1;
             }
+            
+            Invoke("ApplyDamage", 0.5f);
+            Invoke("ResetAttack", 1f);
+            
         }
         
         // metodo para llamar al final de cada ataque
