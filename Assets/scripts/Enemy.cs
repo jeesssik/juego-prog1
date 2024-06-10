@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float damage = 1;
+    [SerializeField] private float damage = 10;
     public Transform player; // Referencia al transform del jugador
     public float detectionRange = 10f; // Rango de detección del enemigo
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
@@ -61,6 +61,8 @@ public class Enemy : MonoBehaviour
 
     private void DetectPlayer()
     {
+        if (player.GetComponent<Maria>().isDead) StopChasing();
+        
         Vector3 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
@@ -137,40 +139,35 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
-       // Debug.Log("Estoy en la función de Attack");
         if (!isAttacking)
         {
             isAttacking = true;
-            navMeshAgent.isStopped = true; // Detener el movimiento del enemigo
-
-            Debug.Log("Atacando al jugador");
+            navMeshAgent.isStopped = true; 
 
             if (attackIndex == 1)
             {
-               // Debug.Log("Estoy llamando a la animación de ataque 1");
                 animator.SetTrigger("Attack1Trigger");
                 animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 2;
             }
             else
             {
-                //Debug.Log("Estoy llamando a la animación de ataque 2");
                 animator.SetTrigger("Attack2Trigger");
                 animator.SetInteger("attackIndex", attackIndex);
                 attackIndex = 1;
             }
-
+            Invoke("MakeDamage", 0.5f);
             Invoke("ResetAttack", 1f); // Suponiendo que la duración del ataque es de 1 segundo
         }
     }
     
-    //funci´pon que hace daño al jugador
-    private void DoDamage()
+    //función que hace daño al jugador
+    private void MakeDamage()
     {
         if(Vector3.Distance(transform.position, player.position) <= attackRange)
         {
             Debug.Log("Haciendo daño al jugador");
-            //player.GetComponent<Player>().TakeDamage(damage);
+            player.GetComponent<Maria>().TakeDamage(damage);
         }
     }
 

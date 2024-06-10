@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class Maria : MonoBehaviour
 {
-    private Animator animator; // Referencia al Animator Controller
-    private Rigidbody rb; // Referencia al Rigidbody del personaje
-    private int attackIndex = 1; // marca la rotación de las diferentes animaciones de ataque
-    private bool isAttacking = false; // marca si el personaje está atacando
+    private Animator animator; 
+    private Rigidbody rb; 
+    private int attackIndex = 1; 
+    private bool isAttacking = false;
 
     // Configuración de movimiento
-    public float rotationSpeed = 80f; // Velocidad de rotación del personaje
-    public float speed = 2f; // Velocidad de movimiento del personaje
+    public float health = 100f; 
+    public float rotationSpeed = 80f; 
+    public float speed = 2f; 
     private bool isGrounded;
-    public float jumpForce = 45f; // Fuerza de salto del personaje
-    public float gravityScale = 10f; // Gravedad del personaje
-    public float runSpeed = 4f; // Velocidad de movimiento del personaje cuando corre
-    
+    public float jumpForce = 45f; 
+    public float gravityScale = 10f; 
+    public float runSpeed = 4f; 
+    public bool isDead = false;
     
     void Start()
     {
@@ -55,14 +56,6 @@ public class Maria : MonoBehaviour
             Invoke("ResetAttack", 1f);
             
         }
-        
-        // metodo para llamar al final de cada ataque
-       /* void ResetAttack()
-        {
-            isAttacking = false;
-            Debug.Log("Ataque" + isAttacking);
-        }*/
-
     }
 
 
@@ -172,8 +165,24 @@ public class Maria : MonoBehaviour
     }
 
     // Función de daño al jugador
-    void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
-        Debug.Log("Player took " + damage + " damage");
+        if (isDead) return;
+        health -= 50;
+        Debug.Log("Maria le queda " + health + " de vida");
+        if (health <= 0)
+        {
+            Die();
+        }
     }
+        
+    void Die()
+    {
+        Debug.Log("Player has died.");
+        isDead = true;
+        animator.SetTrigger("death");
+        
+        
+        // Aquí se puede agregar la lógica para reiniciar el nivel o mostrar un mensaje de Game Over
+        }
 }
