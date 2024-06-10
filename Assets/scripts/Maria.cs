@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Maria : MonoBehaviour
 {
@@ -181,8 +183,19 @@ public class Maria : MonoBehaviour
         Debug.Log("Player has died.");
         isDead = true;
         animator.SetTrigger("death");
-        
-        
-        // Aquí se puede agregar la lógica para reiniciar el nivel o mostrar un mensaje de Game Over
+        // Llamar a la escena de pantalla de muerte y reiniciar la escena actual
+        SceneManager.LoadScene("DeathScreen", LoadSceneMode.Additive);
+        StartCoroutine(UnloadLevel1Scene());
+    }  
+    
+    private IEnumerator UnloadLevel1Scene()
+    {
+        yield return new WaitForSeconds(0.1f);
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync("Level1");
+        while (!asyncUnload.isDone)
+        {
+            yield return null;
         }
+    }
+
 }
