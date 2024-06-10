@@ -63,16 +63,16 @@ public class UImenuPrincipal : MonoBehaviour
     
     private void ChangeMusicVolume(float value)
     {
-       // GameManager.Instance.ChangeMusicVolume(value);
+       GameManager.Instance.ChangeMusicVolume(value);
     }
     
     private void ChangeSFXVolume(float value)
     {
-      //  GameManager.Instance.ChangeSFXVolume(value);
+      GameManager.Instance.ChangeSFXVolume(value);
     }
     
     private void ChangeVolume(float value)
     {
-        //GameManager.Instance.ChangeVolume(value);
+        GameManager.Instance.ChangeVolume(value);
     }
 }
