@@ -3152,7 +3152,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084792974}
-  m_LocalRotation: {x: 0.14321786, y: 0.0012792647, z: -0.00066333264, w: 0.9896902}
+  m_LocalRotation: {x: 0.14321788, y: 0.0012791752, z: -0.0006632879, w: 0.9896901}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3256,6 +3256,9 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 278ab6145e5a2e241bd0359e064fd9e2, type: 3}
   jumpSound: {fileID: 8300000, guid: 6c40ce5b1b82ca94d84489d38bb5f4b1, type: 3}
   attackSound: {fileID: 8300000, guid: f4cb8abf19311f8488dbde99e66a1ba3, type: 3}
+  uhhSound: {fileID: 8300000, guid: 1bc24df115fce6b46bcbcaa9197be972, type: 3}
+  ahhSound: {fileID: 8300000, guid: 002917feb50a01848b8293e832e7b8d8, type: 3}
+  deathSound: {fileID: 8300000, guid: 82da480842ee2334fb401ee60e1264e5, type: 3}
   health: 100
   rotationSpeed: 80
   speed: 2
@@ -3474,7 +3477,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199576654}
-  m_LocalRotation: {x: 0.17907378, y: 0.0012542009, z: -0.0007093325, w: 0.9838346}
+  m_LocalRotation: {x: 0.17907378, y: 0.0012543201, z: -0.0007093623, w: 0.9838346}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4760,7 +4763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677071803}
-  m_LocalRotation: {x: 0.16114873, y: 0.0012670457, z: -0.0006864518, w: 0.9869291}
+  m_LocalRotation: {x: 0.16114877, y: 0.0012669265, z: -0.00068639213, w: 0.9869292}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4960,7 +4963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a25762defaca8c429886ae31bf34972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 20
   player: {fileID: 1159053971}
   detectionRange: 10
   maxChaseDistance: 15

@@ -8,13 +8,15 @@ public class Maria : MonoBehaviour
     private Rigidbody rb; 
     private int attackIndex = 1; 
     private bool isAttacking = false;
+   
     private AudioSource sfx;
     public AudioClip walkSound;
     public AudioClip jumpSound;
     public AudioClip attackSound;
     public AudioClip uhhSound;
     public AudioClip ahhSound;
-
+    public AudioClip deathSound;
+    
     private float stepInterval = 0.7f;
     private float runStepInterval = 0.38f;
     private float stepTimer;
@@ -43,7 +45,6 @@ public class Maria : MonoBehaviour
     {
         Move();
         Attack();
-
     }
 
     // Función de ataque del personaje
@@ -70,12 +71,10 @@ public class Maria : MonoBehaviour
             
             Invoke("ApplyDamage", 0.5f);
             Invoke("ResetAttack", 1f);
-            
         }
     }
 
-
-    // Fun mivimiento personaje
+    // Función de movimiento del personaje
     void Move()
     {
         // Obtener la entrada del teclado
@@ -85,7 +84,7 @@ public class Maria : MonoBehaviour
 
         // Ajustar la velocidad según si el personaje está corriendo o caminando
         float currentSpeed = isRunning ? runSpeed : speed;
-        // ajuste de intervalo de pasos segun si corre o camina
+        // Ajuste de intervalo de pasos según si corre o camina
         float currentStepInterval = isRunning ? runStepInterval : stepInterval; // Ajustar el intervalo de pasos
 
         // Rotar el personaje sobre su eje
@@ -143,16 +142,16 @@ public class Maria : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         }
 
-        // salto del personaje
+        // Salto del personaje
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             animator.SetTrigger("jump");
-            rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
             sfx.PlayOneShot(jumpSound);
             isGrounded = false;
         }
 
-        // aplicar moviento al personaje si cuando salto tengo presionado alguna tecla de movimiento
+        // Aplicar movimiento al personaje si cuando salto tengo presionado alguna tecla de movimiento
         if (!isGrounded && (horizontalInput != 0 || verticalInput != 0))
         {
             Debug.Log("Salto con movimiento");
@@ -160,7 +159,7 @@ public class Maria : MonoBehaviour
             rb.AddForce(airMovement, ForceMode.Acceleration);
         }
 
-        //aplico gravedad al personaje cuando esté en el aire
+        // Aplicar gravedad al personaje cuando esté en el aire
         if (!isGrounded)
         {
             rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
@@ -169,22 +168,20 @@ public class Maria : MonoBehaviour
         animator.SetBool("isGrounded", isGrounded);
     }
     
-    // funcion de reproduccion de sonido al caminar
-    void PlayFootstep( float interval, float volume)
+    // Función de reproducción de sonido al caminar
+    void PlayFootstep(float interval, float volume)
     {
         if (stepTimer <= 0f && isGrounded && !isDead)
         {
             sfx.volume = 0.2f;
             sfx.PlayOneShot(walkSound, volume);
-            
-            Debug.Log("Sonido de paso");
             stepTimer = interval;
         }
         stepTimer -= Time.deltaTime;
     }
 
     
-    //funcion para detectar si el juegador está tocando el suelo
+    // Función para detectar si el jugador está tocando el suelo
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -203,27 +200,34 @@ public class Maria : MonoBehaviour
         Debug.Log("Maria le queda " + health + " de vida");
         if (health <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
     
     // Función para reproducir sonidos de daño
     void PlayDamageSound()
     {
-        AudioClip damageSound = Random.value > 0.8f ? uhhSound : ahhSound;
+        AudioClip damageSound = Random.value > 0.5f ? uhhSound : ahhSound;
         sfx.PlayOneShot(damageSound);
     }
-        
-    void Die()
+
+    // Función de muerte con espera
+    IEnumerator Die()
     {
         Debug.Log("Player has died.");
         isDead = true;
         animator.SetTrigger("death");
-        // Llamar a la escena de pantalla de muerte y reiniciar la escena actual
+        sfx.PlayOneShot(deathSound);
+
+        // Esperar a que termine la animación de muerte
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        // Cargar la escena de pantalla de muerte y manejar la descarga de la escena actual
         SceneManager.LoadScene("DeathScreen", LoadSceneMode.Additive);
         StartCoroutine(UnloadLevel1Scene());
-    }  
-    
+    }
+
+    // Coroutina para descargar la escena actual
     private IEnumerator UnloadLevel1Scene()
     {
         yield return new WaitForSeconds(0.1f);
@@ -233,5 +237,4 @@ public class Maria : MonoBehaviour
             yield return null;
         }
     }
-
 }
