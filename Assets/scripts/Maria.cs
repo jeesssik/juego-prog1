@@ -13,6 +13,7 @@ public class Maria : MonoBehaviour
     public AudioClip jumpSound;
 
     private float stepInterval = 0.7f;
+    private float runStepInterval = 0.38f;
     private float stepTimer;
     
     // Configuración de movimiento
@@ -80,6 +81,8 @@ public class Maria : MonoBehaviour
 
         // Ajustar la velocidad según si el personaje está corriendo o caminando
         float currentSpeed = isRunning ? runSpeed : speed;
+        // ajuste de intervalo de pasos segun si corre o camina
+        float currentStepInterval = isRunning ? runStepInterval : stepInterval; // Ajustar el intervalo de pasos
 
         // Rotar el personaje sobre su eje
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
@@ -93,14 +96,14 @@ public class Maria : MonoBehaviour
         // Controlar las animaciones según la dirección del movimiento y si está corriendo
         if (verticalInput > 0f) // Hacia adelante
         {
-            PlayFootstep();
+            PlayFootstep(currentStepInterval);
             animator.SetBool("walk", !isRunning);
             animator.SetBool("Run", isRunning);
             animator.SetBool("backward", false);
         }
         else if (verticalInput < 0f) // Hacia atrás
         {
-            PlayFootstep();
+            PlayFootstep(currentStepInterval);
             animator.SetBool("walk", false);
             animator.SetBool("Run", false);
             animator.SetBool("backward", true);
@@ -163,13 +166,13 @@ public class Maria : MonoBehaviour
     }
     
     // funcion de reproduccion de sonido al caminar
-    void PlayFootstep()
+    void PlayFootstep( float interval)
     {
         if (stepTimer <= 0f && isGrounded && !isDead)
         {
             sfx.PlayOneShot(walkSound);
             Debug.Log("Sonido de paso");
-            stepTimer = stepInterval;
+            stepTimer = interval;
         }
         stepTimer -= Time.deltaTime;
     }
