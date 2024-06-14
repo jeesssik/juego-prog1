@@ -11,6 +11,7 @@ public class Maria : MonoBehaviour
     private AudioSource sfx;
     public AudioClip walkSound;
     public AudioClip jumpSound;
+    public AudioClip attackSound;
 
     private float stepInterval = 0.7f;
     private float runStepInterval = 0.38f;
@@ -53,6 +54,7 @@ public class Maria : MonoBehaviour
             Debug.Log("Ataque" +  isAttacking);
             animator.SetInteger("AttackIndex", attackIndex);
             animator.SetTrigger("Attack");
+            sfx.PlayOneShot(attackSound);
             isAttacking = false;
             
             // acá tengo que llamar o hacer algo con el daño que causa el ataque
@@ -96,14 +98,14 @@ public class Maria : MonoBehaviour
         // Controlar las animaciones según la dirección del movimiento y si está corriendo
         if (verticalInput > 0f) // Hacia adelante
         {
-            PlayFootstep(currentStepInterval);
+            PlayFootstep(currentStepInterval, 0.2f);
             animator.SetBool("walk", !isRunning);
             animator.SetBool("Run", isRunning);
             animator.SetBool("backward", false);
         }
         else if (verticalInput < 0f) // Hacia atrás
         {
-            PlayFootstep(currentStepInterval);
+            PlayFootstep(currentStepInterval, 0.5f);
             animator.SetBool("walk", false);
             animator.SetBool("Run", false);
             animator.SetBool("backward", true);
@@ -166,11 +168,13 @@ public class Maria : MonoBehaviour
     }
     
     // funcion de reproduccion de sonido al caminar
-    void PlayFootstep( float interval)
+    void PlayFootstep( float interval, float volume)
     {
         if (stepTimer <= 0f && isGrounded && !isDead)
         {
-            sfx.PlayOneShot(walkSound);
+            sfx.volume = 0.2f;
+            sfx.PlayOneShot(walkSound, volume);
+            
             Debug.Log("Sonido de paso");
             stepTimer = interval;
         }
