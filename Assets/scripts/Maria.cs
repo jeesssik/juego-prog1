@@ -227,7 +227,7 @@ public class Maria : MonoBehaviour
         StartCoroutine(UnloadLevel1Scene());
     }
 
-    // Coroutina para descargar la escena actual
+    // Coroutine para descargar la escena actual
     private IEnumerator UnloadLevel1Scene()
     {
         yield return new WaitForSeconds(0.1f);
