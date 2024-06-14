@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float damage = 10;
+    [SerializeField] private float damage = 20;
     public Transform player; // Referencia al transform del jugador
     public float detectionRange = 10f; // Rango de detección del enemigo
     public float maxChaseDistance = 15f; // Distancia máxima de persecución

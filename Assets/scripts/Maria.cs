@@ -12,6 +12,8 @@ public class Maria : MonoBehaviour
     public AudioClip walkSound;
     public AudioClip jumpSound;
     public AudioClip attackSound;
+    public AudioClip uhhSound;
+    public AudioClip ahhSound;
 
     private float stepInterval = 0.7f;
     private float runStepInterval = 0.38f;
@@ -196,12 +198,20 @@ public class Maria : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (isDead) return;
-        health -= 50;
+        health -= damage;
+        PlayDamageSound();  // Reproducir sonido de daño
         Debug.Log("Maria le queda " + health + " de vida");
         if (health <= 0)
         {
             Die();
         }
+    }
+    
+    // Función para reproducir sonidos de daño
+    void PlayDamageSound()
+    {
+        AudioClip damageSound = Random.value > 0.8f ? uhhSound : ahhSound;
+        sfx.PlayOneShot(damageSound);
     }
         
     void Die()
