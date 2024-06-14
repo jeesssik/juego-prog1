@@ -9,7 +9,9 @@ public class Maria : MonoBehaviour
     private Rigidbody rb; 
     private int attackIndex = 1; 
     private bool isAttacking = false;
-   
+    private bool isPlayingAttackSound = false;
+    private bool canAttack = false;
+    
     private AudioSource sfx;
     public AudioClip walkSound;
     public AudioClip jumpSound;
@@ -41,7 +43,6 @@ public class Maria : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("Probando desde branch test");
         animator = GetComponent<Animator>(); // Obtener el Animator Controller del GameObject
         rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del GameObject
         sfx = GetComponent<AudioSource>();
@@ -66,17 +67,18 @@ public class Maria : MonoBehaviour
     void Attack()
     {
         //Detección del boton izquierdo para atacar
-        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        if (Input.GetMouseButtonDown(0) && !isAttacking && canAttack)
         {
             isAttacking = true;
-            Debug.Log("Ataque" +  isAttacking);
+            Debug.Log("Ataque" + isAttacking);
             animator.SetInteger("AttackIndex", attackIndex);
             animator.SetTrigger("Attack");
-            sfx.PlayOneShot(attackSound);
+            
+            isPlayingAttackSound = true;
             isAttacking = false;
             
+        
             // acá tengo que llamar o hacer algo con el daño que causa el ataque
-            
             attackIndex++;
 
             if (attackIndex > 2)
@@ -86,10 +88,43 @@ public class Maria : MonoBehaviour
             
             Invoke("ApplyDamage", 0.5f);
             Invoke("ResetAttack", 1f);
+
+            // limito la reproduccion del sonido de ataque a uno x ataque
+            if (isPlayingAttackSound)
+            {
+                sfx.PlayOneShot(attackSound);
+                isPlayingAttackSound = false; // Restablecer para el próximo ataque
+            }
+        }
+    }
+    
+    // Función para manejar la colisión con el enemigo
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Colision con enemigo");
+            canAttack = true; // Está en rango de ataque
+        }
+        
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            // Debug.Log("Maria está en el suelo");
+            isGrounded = true;
         }
     }
 
-    // Función de movimiento del personaje
+// Función para manejar la salida de la colisión con el enemigo
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            canAttack = false; // Fuera de rango de ataque
+        }
+    }
+    
+    
+// Función de movimiento del personaje
     void Move()
     {
         // Obtener la entrada del teclado
@@ -190,23 +225,12 @@ public class Maria : MonoBehaviour
         {
             sfx.volume = 0.2f;
             sfx.PlayOneShot(walkSound, volume);
-            
-            Debug.Log("Sonido de paso");
             stepTimer = interval;
         }
         stepTimer -= Time.deltaTime;
     }
 
     
-    // Función para detectar si el jugador está tocando el suelo
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-           // Debug.Log("Maria está en el suelo");
-            isGrounded = true;
-        }
-    }
 
     // Función de daño al jugador
     public void TakeDamage(float damage)
@@ -214,7 +238,7 @@ public class Maria : MonoBehaviour
         if (isDead) return;
         health -= damage;
         PlayDamageSound();  // Reproducir sonido de daño
-        Debug.Log("Maria le queda " + health + " de vida");
+        //Debug.Log("Maria le queda " + health + " de vida");
         if (health <= 0)
         {
             StartCoroutine(Die());

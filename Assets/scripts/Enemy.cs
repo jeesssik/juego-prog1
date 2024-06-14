@@ -166,7 +166,6 @@ public class Enemy : MonoBehaviour
     {
         if(Vector3.Distance(transform.position, player.position) <= attackRange)
         {
-            Debug.Log("Haciendo daño al jugador");
             player.GetComponent<Maria>().TakeDamage(damage);
         }
     }
