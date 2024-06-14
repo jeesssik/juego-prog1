@@ -10,6 +10,7 @@ public class Maria : MonoBehaviour
     private bool isAttacking = false;
     private AudioSource sfx;
     public AudioClip walkSound;
+    public AudioClip jumpSound;
 
     private float stepInterval = 0.7f;
     private float stepTimer;
@@ -93,15 +94,13 @@ public class Maria : MonoBehaviour
         if (verticalInput > 0f) // Hacia adelante
         {
             PlayFootstep();
-            //sfx.PlayOneShot(walkSound);
             animator.SetBool("walk", !isRunning);
             animator.SetBool("Run", isRunning);
             animator.SetBool("backward", false);
         }
         else if (verticalInput < 0f) // Hacia atrás
         {
-            //audioSource.clip = walkSound;
-            //audioSource.Play();
+            PlayFootstep();
             animator.SetBool("walk", false);
             animator.SetBool("Run", false);
             animator.SetBool("backward", true);
@@ -116,16 +115,11 @@ public class Maria : MonoBehaviour
         // Controlar las animaciones de giro
         if (horizontalInput < 0f) // Hacia la izquierda
         {
-            
-            //audioSource.clip = walkSound;
-            //audioSource.Play();
             animator.SetBool("turnL", true);
             animator.SetBool("turnR", false);
         }
         else if (horizontalInput > 0f) // Hacia la derecha
         {
-            //audioSource.clip = walkSound;
-            //audioSource.Play();
             animator.SetBool("turnL", false);
             animator.SetBool("turnR", true);
         }
@@ -139,17 +133,15 @@ public class Maria : MonoBehaviour
         if (horizontalInput != 0)
         {
             transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
-
-            //transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         }
 
         // salto del personaje
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            //Debug.Log("Maria Jump");
             animator.SetTrigger("jump");
             rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
+            sfx.PlayOneShot(jumpSound);
             isGrounded = false;
         }
 
