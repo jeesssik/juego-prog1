@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public Transform player; // Referencia al transform del jugador
     public float detectionRange = 10f; // Rango de detección del enemigo
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
-    public float attackRange = 2f; // Rango de ataque del enemigo
+    public float attackRange = 1f; // Rango de ataque del enemigo
     public LayerMask detectionLayer; // Capas a considerar en la detección
     private int attackIndex = 1;
     private Vector3 originalPosition; // Posición original del enemigo
