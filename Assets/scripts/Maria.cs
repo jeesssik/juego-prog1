@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class Maria : MonoBehaviour
 {
@@ -31,6 +32,13 @@ public class Maria : MonoBehaviour
     public float runSpeed = 4f; 
     public bool isDead = false;
     
+    // Configuración de la cámara
+    public CinemachineFreeLook cinemachineFreeLook;  // La cámara FreeLook de Cinemachine
+    public float zoomSpeed = 2f;  // Velocidad del zoom
+    public float minZoom = 2f;  // Distancia mínima de zoom
+    public float maxZoom = 10f; // Distancia máxima de zoom
+    private float currentZoom = 4f;  // Distancia actual de la cámara
+    
     void Start()
     {
         Debug.Log("Probando desde branch test");
@@ -39,12 +47,19 @@ public class Maria : MonoBehaviour
         sfx = GetComponent<AudioSource>();
         
         stepTimer = stepInterval;
+        
+        // Inicializar el zoom actual con la distancia de seguimiento inicial de Cinemachine
+        if (cinemachineFreeLook != null)
+        {
+            currentZoom = cinemachineFreeLook.m_Orbits[1].m_Radius;
+        }
     }
 
     void Update()
     {
         Move();
         Attack();
+        Zoom();
     }
 
     // Función de ataque del personaje
@@ -175,6 +190,8 @@ public class Maria : MonoBehaviour
         {
             sfx.volume = 0.2f;
             sfx.PlayOneShot(walkSound, volume);
+            
+            Debug.Log("Sonido de paso");
             stepTimer = interval;
         }
         stepTimer -= Time.deltaTime;
@@ -235,6 +252,26 @@ public class Maria : MonoBehaviour
         while (!asyncUnload.isDone)
         {
             yield return null;
+        }
+    }
+
+    // Función para el zoom de la cámara
+    void Zoom()
+    {
+        if (cinemachineFreeLook != null)
+        {
+            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+            if (scrollInput != 0)
+            {
+                currentZoom -= scrollInput * zoomSpeed;
+                currentZoom = Mathf.Clamp(currentZoom, minZoom, maxZoom);
+
+                // Actualizar las órbitas de Cinemachine FreeLook
+                for (int i = 0; i < cinemachineFreeLook.m_Orbits.Length; i++)
+                {
+                    cinemachineFreeLook.m_Orbits[i].m_Radius = currentZoom;
+                }
+            }
         }
     }
 }
