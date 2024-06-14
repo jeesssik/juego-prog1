@@ -8,7 +8,12 @@ public class Maria : MonoBehaviour
     private Rigidbody rb; 
     private int attackIndex = 1; 
     private bool isAttacking = false;
+    private AudioSource sfx;
+    public AudioClip walkSound;
 
+    private float stepInterval = 0.7f;
+    private float stepTimer;
+    
     // Configuración de movimiento
     public float health = 100f; 
     public float rotationSpeed = 80f; 
@@ -24,6 +29,9 @@ public class Maria : MonoBehaviour
         Debug.Log("Probando desde branch test");
         animator = GetComponent<Animator>(); // Obtener el Animator Controller del GameObject
         rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del GameObject
+        sfx = GetComponent<AudioSource>();
+        
+        stepTimer = stepInterval;
     }
 
     void Update()
@@ -84,12 +92,16 @@ public class Maria : MonoBehaviour
         // Controlar las animaciones según la dirección del movimiento y si está corriendo
         if (verticalInput > 0f) // Hacia adelante
         {
+            PlayFootstep();
+            //sfx.PlayOneShot(walkSound);
             animator.SetBool("walk", !isRunning);
             animator.SetBool("Run", isRunning);
             animator.SetBool("backward", false);
         }
         else if (verticalInput < 0f) // Hacia atrás
         {
+            //audioSource.clip = walkSound;
+            //audioSource.Play();
             animator.SetBool("walk", false);
             animator.SetBool("Run", false);
             animator.SetBool("backward", true);
@@ -104,11 +116,16 @@ public class Maria : MonoBehaviour
         // Controlar las animaciones de giro
         if (horizontalInput < 0f) // Hacia la izquierda
         {
+            
+            //audioSource.clip = walkSound;
+            //audioSource.Play();
             animator.SetBool("turnL", true);
             animator.SetBool("turnR", false);
         }
         else if (horizontalInput > 0f) // Hacia la derecha
         {
+            //audioSource.clip = walkSound;
+            //audioSource.Play();
             animator.SetBool("turnL", false);
             animator.SetBool("turnR", true);
         }
@@ -153,7 +170,17 @@ public class Maria : MonoBehaviour
         animator.SetBool("isGrounded", isGrounded);
     }
     
-
+    // funcion de reproduccion de sonido al caminar
+    void PlayFootstep()
+    {
+        if (stepTimer <= 0f && isGrounded && !isDead)
+        {
+            sfx.PlayOneShot(walkSound);
+            Debug.Log("Sonido de paso");
+            stepTimer = stepInterval;
+        }
+        stepTimer -= Time.deltaTime;
+    }
 
     
     //funcion para detectar si el juegador está tocando el suelo
