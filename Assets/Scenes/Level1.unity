@@ -1196,8 +1196,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.07541097, y: 0.50908244, z: -0.044836286, w: 0.8562348}
-  m_LocalPosition: {x: -23.930004, y: 2.502, z: -9.962237}
+  m_LocalRotation: {x: 0.088205375, y: 0.5082557, z: -0.05242941, w: 0.85507137}
+  m_LocalPosition: {x: -23.226555, y: 2.502, z: -9.581239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2837,7 +2837,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847627537}
-  m_LocalRotation: {x: 0.075410955, y: 0.5090824, z: -0.044836286, w: 0.8562348}
+  m_LocalRotation: {x: 0.08820538, y: 0.5082557, z: -0.0524294, w: 0.8550714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2986,7 +2986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 2.5, z: -5.8}
+  m_FollowOffset: {x: 0, y: 2.5, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -3157,8 +3157,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084792974}
-  m_LocalRotation: {x: 0.1943646, y: 0.44088006, z: -0.18582048, w: 0.8563398}
-  m_LocalPosition: {x: -2.5115166, y: 0.72947073, z: 4.1091723}
+  m_LocalRotation: {x: 0.20674217, y: 0.0008368492, z: -0.0003675036, w: 0.97839504}
+  m_LocalPosition: {x: 0.0036568642, y: 0.4082768, z: 1.9578793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3487,8 +3487,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199576654}
-  m_LocalRotation: {x: 0.026574496, y: 0.9019042, z: -0.41933888, w: 0.10008812}
-  m_LocalPosition: {x: -0.6087456, y: 1.5269017, z: 8.6011715}
+  m_LocalRotation: {x: 0.24214508, y: 0.0025279226, z: -0.0012216383, w: 0.970236}
+  m_LocalPosition: {x: -0.0077052116, y: 0.40828547, z: 1.957921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3709,7 +3709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 2.5, z: -5.8}
+  m_FollowOffset: {x: 0, y: 2.5, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -4527,7 +4527,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599603446}
-  m_LocalRotation: {x: 0.17361876, y: 0.5011802, z: -0.10341414, w: 0.84141576}
+  m_LocalRotation: {x: 0.19739026, y: 0.49804875, z: -0.11757339, w: 0.8361585}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4612,7 +4612,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607028580}
-  m_LocalRotation: {x: 0.14293979, y: 0.50460595, z: -0.08514055, w: 0.84716713}
+  m_LocalRotation: {x: 0.16688657, y: 0.5019909, z: -0.09940418, w: 0.84277683}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4773,8 +4773,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677071803}
-  m_LocalRotation: {x: 0.17114149, y: 0.8028134, z: -0.27424693, w: 0.500989}
-  m_LocalPosition: {x: -21.524815, y: 2.502, z: -5.8816757}
+  m_LocalRotation: {x: 0.22146907, y: 0.14770666, z: -0.06809404, w: 0.9615079}
+  m_LocalPosition: {x: -0.9537469, y: 0.44067788, z: 2.1132576}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4973,7 +4973,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a25762defaca8c429886ae31bf34972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
+  Edamage: 20
+  isDead: 0
   player: {fileID: 1159053971}
   detectionRange: 10
   maxChaseDistance: 15
@@ -5183,7 +5184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 2.5, z: -5.8}
+  m_FollowOffset: {x: 0, y: 2.5, z: -5}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -5486,11 +5487,11 @@ MonoBehaviour:
   m_SplineCurvature: 0.35
   m_Orbits:
   - m_Height: 4.5
-    m_Radius: 5.8
+    m_Radius: 5
   - m_Height: 2.5
-    m_Radius: 5.8
+    m_Radius: 5
   - m_Height: 0.4
-    m_Radius: 5.8
+    m_Radius: 5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 1599603447}
@@ -5504,7 +5505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958034592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.930004, y: 2.502, z: -9.962237}
+  m_LocalPosition: {x: -23.226555, y: 2.502, z: -9.581239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

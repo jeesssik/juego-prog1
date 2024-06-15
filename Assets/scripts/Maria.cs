@@ -197,7 +197,6 @@ public class Maria : MonoBehaviour
         // Aplicar movimiento al personaje si cuando salto tengo presionado alguna tecla de movimiento
         if (!isGrounded && (horizontalInput != 0 || verticalInput != 0))
         {
-            Debug.Log("Salto con movimiento");
             Vector3 airMovement = new Vector3(horizontalInput, 0, verticalInput) * speed * Time.deltaTime;
             rb.AddForce(airMovement, ForceMode.Acceleration);
         }
