@@ -10,6 +10,8 @@ public class Maria : MonoBehaviour
     private int attackIndex = 1; 
     private bool isAttacking = false;
     private bool isPlayingAttackSound = false;
+    private int damage = 25;
+    public GameObject enemy;
     
     private AudioSource sfx;
     public AudioClip walkSound;
@@ -63,38 +65,57 @@ public class Maria : MonoBehaviour
     }
 
     // Función de ataque del personaje
-    void Attack()
+   void Attack()
     {
-        //Detección del boton izquierdo para atacar
-        if (Input.GetMouseButtonDown(0) && !isAttacking )
+        //Detección del botón izquierdo para atacar
+        if (Input.GetMouseButtonDown(0) && !isAttacking && !isDead)
         {
-            isAttacking = true;
+            isAttacking = true; // Marcar que estamos atacando
+
+            // Configurar la animación de ataque
             animator.SetInteger("AttackIndex", attackIndex);
             animator.SetTrigger("Attack");
             
-            isPlayingAttackSound = true;
-            
+            // Reproducir sonido de ataque
+            sfx.PlayOneShot(attackSound);
             isAttacking = false;
-            
-            // acá tengo que llamar o hacer algo con el daño que causa el ataque
+            // Incrementar el índice de ataque
             attackIndex++;
-
-            if (attackIndex > 3)
+            if (attackIndex > 2)
             {
                 attackIndex = 1;
             }
-            
-            Invoke("ApplyDamage", 0.5f);
-            Invoke("ResetAttack", 1f);
 
-            // limito la reproduccion del sonido de ataque a uno x ataque
-            if (isPlayingAttackSound)
+            // Aplicar daño si el enemigo está dentro del rango
+            if (enemy != null && Vector3.Distance(transform.position, enemy.transform.position) <= 1.5f)
             {
-                sfx.PlayOneShot(attackSound);
-                isPlayingAttackSound = false; // Restablecer para el próximo ataque
+                ApplyDamage();
             }
+            
+            // Reiniciar el estado de ataque después de un tiempo
+           // StartCoroutine(ResetAttackState());
         }
     }
+
+   
+  
+    IEnumerator ResetAttackState()
+    {
+        yield return new WaitForSeconds(1.0f); // Esperar un segundo después del ataque
+        isAttacking = false; // Permitir otro ataque después de este tiempo
+    }
+    
+    void ApplyDamage()
+    {
+        // Verificar si el enemigo está vivo y dentro del rango de ataque
+       // if (enemy!= null  && Vector3.Distance(transform.position, enemy.transform.position) <= 1.5f)
+        //{
+            // Llamar a la función de recibo de daño del enemigo
+            enemy.GetComponent<Enemy>().TakeMariaDamage(damage);
+       // }
+    }
+    
+    
 // Función de movimiento del personaje
 
     void Move()
@@ -197,8 +218,6 @@ public class Maria : MonoBehaviour
         {
             sfx.volume = 0.2f;
             sfx.PlayOneShot(walkSound, volume);
-            
-            Debug.Log("Sonido de paso");
             stepTimer = interval;
         }
         stepTimer -= Time.deltaTime;
@@ -221,7 +240,7 @@ public class Maria : MonoBehaviour
         if (isDead) return;
         health -= damage;
         PlayDamageSound();  // Reproducir sonido de daño
-        Debug.Log("Maria le queda " + health + " de vida");
+        //Debug.Log("Maria le queda " + health + " de vida");
         if (health <= 0)
         {
             StartCoroutine(Die());

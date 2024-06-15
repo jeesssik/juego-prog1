@@ -3157,8 +3157,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084792974}
-  m_LocalRotation: {x: 0.22134155, y: 0.00073471665, z: -0.0003096424, w: 0.97519606}
-  m_LocalPosition: {x: 0.0044658184, y: 0.48941043, z: 2.756892}
+  m_LocalRotation: {x: 0.1943646, y: 0.44088006, z: -0.18582048, w: 0.8563398}
+  m_LocalPosition: {x: -2.5115166, y: 0.72947073, z: 4.1091723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3258,6 +3258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d9bee01c365f249ae9a35f26713aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 1797710153}
   walkSound: {fileID: 8300000, guid: 278ab6145e5a2e241bd0359e064fd9e2, type: 3}
   jumpSound: {fileID: 8300000, guid: 6c40ce5b1b82ca94d84489d38bb5f4b1, type: 3}
   attackSound: {fileID: 8300000, guid: f4cb8abf19311f8488dbde99e66a1ba3, type: 3}
@@ -3486,8 +3487,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199576654}
-  m_LocalRotation: {x: 0.25661948, y: 0.00072303414, z: -0.00033618137, w: 0.9665122}
-  m_LocalPosition: {x: 0.0044658184, y: 0.48941043, z: 2.756892}
+  m_LocalRotation: {x: 0.026574496, y: 0.9019042, z: -0.41933888, w: 0.10008812}
+  m_LocalPosition: {x: -0.6087456, y: 1.5269017, z: 8.6011715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4772,8 +4773,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677071803}
-  m_LocalRotation: {x: 0.23899661, y: 0.0007289946, z: -0.00032298637, w: 0.97102016}
-  m_LocalPosition: {x: 0.0044658184, y: 0.48941043, z: 2.756892}
+  m_LocalRotation: {x: 0.17114149, y: 0.8028134, z: -0.27424693, w: 0.500989}
+  m_LocalPosition: {x: -21.524815, y: 2.502, z: -5.8816757}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
