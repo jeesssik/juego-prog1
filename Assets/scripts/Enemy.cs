@@ -5,8 +5,8 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public float Edamage = 5;
-    public bool isDead = false; 
-    public Transform player;  // Referencia al transform del jugador
+    public bool isDead = false;
+    public Transform player; // Referencia al transform del jugador
     public float detectionRange = 10f; // Rango de detección del enemigo
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
     public float attackRange = 1f; // Rango de ataque del enemigo
@@ -28,11 +28,13 @@ public class Enemy : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>(); // Obtener la referencia al NavMeshAgent
         animator = GetComponent<Animator>(); // Obtener la referencia al Animator
         originalPosition = transform.position; // Guardar la posición original del enemigo
+        healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al inicio
     }
 
     private void Update()
     {
         healthBar.BarValue = health;
+
         if (!isChasing && !isReturning && !isAttacking && !isDead)
         {
             DetectPlayer();
@@ -62,13 +64,14 @@ public class Enemy : MonoBehaviour
         {
             isReturning = false;
             animator.SetBool("walking", false); // Detener animación de caminar
+            healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al regresar
         }
     }
 
     private void DetectPlayer()
     {
         if (player.GetComponent<Maria>().isDead) StopChasing();
-        
+
         Vector3 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
@@ -79,6 +82,7 @@ public class Enemy : MonoBehaviour
             {
                 if (hit.collider.transform == player)
                 {
+                    healthBar.gameObject.SetActive(true); // Mostrar la barra de salud cuando el jugador está en rango
                     if (distanceToPlayer <= attackRange && !isAttacking)
                     {
                         isChasing = false;
@@ -106,6 +110,7 @@ public class Enemy : MonoBehaviour
         isReturning = true;
         navMeshAgent.SetDestination(originalPosition);
         animator.SetBool("walking", true); // Iniciar animación de caminar al volver a la posición original
+        healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al dejar de perseguir
     }
     
     // Función que recibe daño
@@ -129,12 +134,15 @@ public class Enemy : MonoBehaviour
         isAttacking = false;
         isDead = true;
         navMeshAgent.isStopped = true;
+        healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al morir
     }
 
     private void MoveTowardsPlayer()
     {
         if (player != null && navMeshAgent != null)
         {
+            //animacion de caminar hacia el jugador
+            animator.SetBool("walking", true);
             navMeshAgent.SetDestination(player.position); // Moverse hacia el jugador
         }
     }
@@ -144,7 +152,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
 
     // Corrutina para esperar un tiempo antes de perseguir
