@@ -42,6 +42,8 @@ public class Maria : MonoBehaviour
     public float maxZoom = 10f; // Distancia máxima de zoom
     private float currentZoom = 4f;  // Distancia actual de la cámara
     
+    public ProgressBar healthBar; // Referencia al script de la barra de salud
+    
     void Start()
     {
         animator = GetComponent<Animator>(); // Obtener el Animator Controller del GameObject
@@ -62,6 +64,7 @@ public class Maria : MonoBehaviour
         Move();
         Attack();
         Zoom();
+        healthBar.BarValue = health;
     }
 
     // Función de ataque del personaje
@@ -96,9 +99,6 @@ public class Maria : MonoBehaviour
            // StartCoroutine(ResetAttackState());
         }
     }
-
-   
-  
     IEnumerator ResetAttackState()
     {
         yield return new WaitForSeconds(1.0f); // Esperar un segundo después del ataque
