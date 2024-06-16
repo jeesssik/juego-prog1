@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -172,6 +172,10 @@ public class Enemy : MonoBehaviour
         {
             isAttacking = true;
             navMeshAgent.isStopped = true;
+            
+            float attackDuration = GetAttackAnimationDuration();
+            // Invocar el daño en la mitad del tiempo de la animación
+            Invoke("MakeDamage", attackDuration / 2f);
 
             if (attackIndex == 1)
             {
@@ -186,11 +190,23 @@ public class Enemy : MonoBehaviour
                 attackIndex = 1;
             }
 
-            Invoke("MakeDamage", 0.5f); // Llamar a MakeDamage después de 0.5 segundos
+            //Invoke("MakeDamage", 0.5f); // Llamar a MakeDamage después de 0.5 segundos
             Invoke("ResetAttack", 1f); // Reiniciar el ataque después de 1 segundo
         }
     }
 
+    
+    // Obtener la duración de la animación de ataque actual
+    private float GetAttackAnimationDuration()
+    {
+        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        if (clipInfo.Length > 0)
+        {
+            return clipInfo[0].clip.length;
+        }
+        return 1f; // Valor predeterminado
+    }
+    
     // Función que hace el daño al jugador
     private void MakeDamage()
     {
@@ -233,3 +249,5 @@ public class Enemy : MonoBehaviour
         }
     }
 }
+
+
