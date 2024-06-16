@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public float Edamage = 20;
+    public float Edamage = 5;
     public bool isDead = false; 
     public Transform player;  // Referencia al transform del jugador
     public float detectionRange = 10f; // Rango de detección del enemigo
@@ -13,13 +13,15 @@ public class Enemy : MonoBehaviour
     public LayerMask detectionLayer; // Capas a considerar en la detección
     
     private int attackIndex = 1;
-    private float health = 80f;
+    private float health = 100f;
     private Vector3 originalPosition; // Posición original del enemigo
     private Animator animator;
     private NavMeshAgent navMeshAgent;
     private bool isChasing = false;
     private bool isAttacking = false;
     private bool isReturning = false;
+    
+    public ProgressBar healthBar; // Referencia al script de la barra de salud
 
     private void Start()
     {
@@ -30,6 +32,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        healthBar.BarValue = health;
         if (!isChasing && !isReturning && !isAttacking && !isDead)
         {
             DetectPlayer();
