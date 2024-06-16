@@ -9,7 +9,7 @@ public class Maria : MonoBehaviour
     private Rigidbody rb; 
     private int attackIndex = 1; 
     private bool isAttacking = false;
-    private bool isPlayingAttackSound = false;
+    //private bool isPlayingAttackSound = false;
     private int damage = 25;
     public GameObject enemy;
     
