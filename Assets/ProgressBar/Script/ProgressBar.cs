@@ -95,9 +95,9 @@ public class ProgressBar : MonoBehaviour
         if (!Application.isPlaying)
         {           
             UpdateValue(50);
-            txtTitle.color = TitleColor;
-            txtTitle.font = TitleFont;
-            txtTitle.fontSize = TitleFontSize;
+           //txtTitle.color = TitleColor;
+           // txtTitle.font = TitleFont;
+           // txtTitle.fontSize = TitleFontSize;
 
             bar.color = BarColor;
             barBackground.color = BarBackGroundColor;
