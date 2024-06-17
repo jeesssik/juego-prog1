@@ -80,7 +80,8 @@ public class PauseManager : MonoBehaviour
     void ChangeMusicVolume(float value)
     {
         
-        Debug.Log("Cambiar volumen de la música a: " + value);
+        //Debug.Log("Cambiar volumen de la música a: " + value);
+        //GameManager.Instance.ChangeMusicVolume(value);}
         GameManager.Instance.ChangeMusicVolume(value);
     }
 

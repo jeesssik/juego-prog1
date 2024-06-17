@@ -14,7 +14,7 @@ public class UImenuPrincipal : MonoBehaviour
     [SerializeField] private Button exitButton;
     [SerializeField] private Button backButton;
     
-    [SerializeField] private RectTransform buttonContainer;
+    //[SerializeField] private RectTransform buttonContainer;
 
     [SerializeField] private GameObject mainScreen;
     [SerializeField] private GameObject settingsScreen;

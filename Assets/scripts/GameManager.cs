@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Previene que el objeto GameManager se destruya al cargar una nueva escena
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -24,37 +24,45 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(levelName);
     }
-
-    // Metodo para cambiar el volumen de la música
+    
     public void ChangeMusicVolume(float value)
     {
         // Asumiendo que hay un solo AudioSource para la música
-        AudioSource musicSource = FindObjectOfType<AudioSource>(); // Asumiendo que hay un solo AudioSource para la música
-        if (musicSource != null)
+        //AudioSource musicSource = FindObjectOfType<AudioSource>();
+        /*if (musicSource != null)
         {
             musicSource.volume = value;
         }
         else
         {
             Debug.LogWarning("No AudioSource found for music.");
+        }*/
+        AudioSource[] music = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource musicSource in music)
+        {
+            if (musicSource.tag == "Music")
+            {
+                musicSource.volume = value;
+            }
+            else
+            {
+                Debug.LogWarning("No AudioSource found for music.");
+            }
         }
     }
-
-    // Metodo para cambiar el volumen de los SFX
+    
     public void ChangeSFXVolume(float value)
     {
-        // Asumiendo que los SFX tienen un tag "SFX", se puede ajustar el volumen de todos los AudioSources con ese tag
-        AudioSource[] sfxSources = FindObjectsOfType<AudioSource>(); // Find all AudioSources
+        AudioSource[] sfxSources = FindObjectsOfType<AudioSource>(); 
         foreach (AudioSource sfxSource in sfxSources)
         {
-            if (sfxSource.tag == "SFX") // Assumiendo que los SFX tienen un tag "SFX"
+            if (sfxSource.tag == "Player" || sfxSource.tag == "Enemy" )
             {
                 sfxSource.volume = value;
             }
         }
     }
 
-    // Metodo para cambiar los volumenes
     public void ChangeVolume(float value)
     {
         AudioListener.volume = value;
