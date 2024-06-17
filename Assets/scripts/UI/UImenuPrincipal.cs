@@ -5,6 +5,7 @@ using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class UImenuPrincipal : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class UImenuPrincipal : MonoBehaviour
 
     private void Awake()
     {
+        
         playButton.onClick.AddListener(Play);
         settingsButton.onClick.AddListener(Settings);
         exitButton.onClick.AddListener(Exit);
@@ -41,7 +43,7 @@ public class UImenuPrincipal : MonoBehaviour
 
     private void Play()
     {
-        GameManager.Instance.StartGame("Level1");
+        SceneManager.LoadScene("Level1");
     }
     
     private void Settings()
