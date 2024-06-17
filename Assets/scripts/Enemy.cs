@@ -7,11 +7,11 @@ public class Enemy : MonoBehaviour
 {
     public float Edamage = 5;
     public bool isDead = false;
-    public Transform player; // Referencia al transform del jugador
-    public float detectionRange = 10f; // Rango de detección del enemigo
-    public float maxChaseDistance = 15f; // Distancia máxima de persecución
-    public float attackRange = 1f; // Rango de ataque del enemigo
-    public LayerMask detectionLayer; // Capas a considerar en la detección
+    public Transform player;
+    public float detectionRange = 10f; 
+    public float maxChaseDistance = 15f; 
+    public float attackRange = 1f; 
+    public LayerMask detectionLayer;
     private float attackSoudSpeed = 0.5f;
     private float walkSoundSpeed = 0.7f;
     private AudioSource sfx;
@@ -129,7 +129,6 @@ public class Enemy : MonoBehaviour
         if (health > 0)
         {
             health -= damage;
-            //Debug.Log("Enemigo recibe " + damage + " de daño. Vida restante: " + health);
             if (health <= 0)
             {
                 Die();
@@ -207,7 +206,6 @@ public class Enemy : MonoBehaviour
                 attackIndex = 1;
             }
 
-            //Invoke("MakeDamage", 0.5f); // Llamar a MakeDamage después de 0.5 segundos
             Invoke("ResetAttack", 1f); // Reiniciar el ataque después de 1 segundo
         }
     }
@@ -245,7 +243,7 @@ public class Enemy : MonoBehaviour
         {
             return clipInfo[0].clip.length;
         }
-        return 1f; // Valor predeterminado
+        return 1f; 
     }
     
     // Función que hace el daño al jugador
@@ -260,33 +258,6 @@ public class Enemy : MonoBehaviour
     private void ResetAttack()
     {
         isAttacking = false;
-        navMeshAgent.isStopped = false; // Reanudar el movimiento del enemigo
-    }
-
-    // Métodos de colisión (si decides mantenerlos para otro propósito)
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Colisión con el jugador detectada. Iniciando ataque...");
-            Attack();
-        }
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Colisión continua con el jugador detectada. Iniciando ataque...");
-            Attack();
-        }
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Saliendo de la colisión con el jugador...");
-        }
+        navMeshAgent.isStopped = false; 
     }
 }
