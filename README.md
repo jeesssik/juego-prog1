@@ -1,4 +1,5 @@
-# Shadows of the Past
+
+# ![Shadows of the Past](Assets/UI/Shadows.png)
 
 ## Descripción
 
