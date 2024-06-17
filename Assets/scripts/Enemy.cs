@@ -215,7 +215,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator PlaySound(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        sfx.PlayOneShot(punchSound);
+        sfx.PlayOneShot(punchSound,0.3f);
     }
 
     private IEnumerator PlayStepSound()
