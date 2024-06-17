@@ -58,8 +58,6 @@ public class PauseManager : MonoBehaviour
 
     void Pause()
     {
-        //mutear sonido de sfx de click
-        //AudioListener.volume = 0;
         pauseMenuUI.SetActive(true);
         settingsPanelUI.SetActive(false);
         Time.timeScale = 0f; // Pausar el tiempo

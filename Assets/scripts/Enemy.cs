@@ -27,15 +27,15 @@ public class Enemy : MonoBehaviour
     private bool isAttacking = false;
     private bool isReturning = false;
     
-    public ProgressBar healthBar; // Referencia al script de la barra de salud
+    public ProgressBar healthBar; 
     
     private Coroutine stepSoundCoroutine;
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>(); // Obtener la referencia al NavMeshAgent
-        animator = GetComponent<Animator>(); // Obtener la referencia al Animator
-        originalPosition = transform.position; // Guardar la posición original del enemigo
-        healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al inicio
+        navMeshAgent = GetComponent<NavMeshAgent>(); 
+        animator = GetComponent<Animator>();
+        originalPosition = transform.position; 
+        healthBar.gameObject.SetActive(false); 
         sfx = GetComponent<AudioSource>();
     }
 
@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
             else if (distanceToPlayer <= attackRange)
             {
                 isChasing = false;
-                Attack(); // Atacar si está dentro del rango de ataque
+                Attack(); 
             }
             else
             {
@@ -91,17 +91,17 @@ public class Enemy : MonoBehaviour
             {
                 if (hit.collider.transform == player)
                 {
-                    healthBar.gameObject.SetActive(true); // Mostrar la barra de salud cuando el jugador está en rango
+                    healthBar.gameObject.SetActive(true); 
                     if (distanceToPlayer <= attackRange && !isAttacking)
                     {
                         isChasing = false;
-                        Attack(); // Llama a la función de ataque si está dentro del rango de ataque
+                        Attack(); 
                     }
                     else if (distanceToPlayer > attackRange)
                     {
                         isChasing = true;
                         animator.SetTrigger("isThreatening");
-                        StartCoroutine(WaitAndChase(1.5f)); // Esperar duración de la animación de amenaza antes de perseguir
+                        StartCoroutine(WaitAndChase(1.5f)); 
                     }
                 }
             }
@@ -168,8 +168,7 @@ public class Enemy : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
-
-    // Corrutina para esperar un tiempo antes de perseguir
+    
     private IEnumerator WaitAndChase(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
