@@ -43,7 +43,7 @@ public class PauseManager : MonoBehaviour
             }
             else
             {
-                Pause();
+                Pause(); 
             }
         }
     }
@@ -58,6 +58,8 @@ public class PauseManager : MonoBehaviour
 
     void Pause()
     {
+        //mutear sonido de sfx de click
+        //AudioListener.volume = 0;
         pauseMenuUI.SetActive(true);
         settingsPanelUI.SetActive(false);
         Time.timeScale = 0f; // Pausar el tiempo
@@ -79,22 +81,16 @@ public class PauseManager : MonoBehaviour
 
     void ChangeMusicVolume(float value)
     {
-        
-        //Debug.Log("Cambiar volumen de la música a: " + value);
-        //GameManager.Instance.ChangeMusicVolume(value);}
         GameManager.Instance.ChangeMusicVolume(value);
     }
 
     void ChangeSFXVolume(float value)
     {
-        Debug.Log("Cambiar volumen de los efectos de sonido a: " + value);
         GameManager.Instance.ChangeSFXVolume(value);
     }
 
     void ChangeVolume(float value)
     {
-        
-        Debug.Log("Cambiar volumen general a: " + value);
         GameManager.Instance.ChangeVolume(value);
     }
     void ExitGame()

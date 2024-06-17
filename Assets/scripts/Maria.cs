@@ -5,11 +5,12 @@ using Cinemachine;
 
 public class Maria : MonoBehaviour
 {
+    public GameObject pauseMenuUI;
+    
     private Animator animator; 
     private Rigidbody rb; 
     private int attackIndex = 1; 
     private bool isAttacking = false;
-    //private bool isPlayingAttackSound = false;
     private int damage = 25;
     public GameObject enemy;
     
@@ -36,18 +37,18 @@ public class Maria : MonoBehaviour
     public bool isDead = false;
     
     // Configuración de la cámara
-    public CinemachineFreeLook cinemachineFreeLook;  // La cámara FreeLook de Cinemachine
-    public float zoomSpeed = 2f;  // Velocidad del zoom
-    public float minZoom = 2f;  // Distancia mínima de zoom
-    public float maxZoom = 10f; // Distancia máxima de zoom
-    private float currentZoom = 4f;  // Distancia actual de la cámara
+    public CinemachineFreeLook cinemachineFreeLook;  
+    public float zoomSpeed = 2f;  
+    public float minZoom = 2f;  
+    public float maxZoom = 10f; 
+    private float currentZoom = 4f;  
     
-    public ProgressBar healthBar; // Referencia al script de la barra de salud
+    public ProgressBar healthBar; 
     
     void Start()
     {
-        animator = GetComponent<Animator>(); // Obtener el Animator Controller del GameObject
-        rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del GameObject
+        animator = GetComponent<Animator>(); 
+        rb = GetComponent<Rigidbody>();
         sfx = GetComponent<AudioSource>();
         
         stepTimer = stepInterval;
@@ -70,17 +71,16 @@ public class Maria : MonoBehaviour
     // Función de ataque del personaje
    void Attack()
     {
-        //Detección del botón izquierdo para atacar
         if (Input.GetMouseButtonDown(0) && !isAttacking && !isDead)
         {
-            isAttacking = true; // Marcar que estamos atacando
+            isAttacking = true; 
 
             // Configurar la animación de ataque
             animator.SetInteger("AttackIndex", attackIndex);
             animator.SetTrigger("Attack");
             
             // Reproducir sonido de ataque
-            sfx.PlayOneShot(attackSound);
+            //sfx.PlayOneShot(attackSound);
             isAttacking = false;
             // Incrementar el índice de ataque
             attackIndex++;
@@ -95,29 +95,22 @@ public class Maria : MonoBehaviour
                 ApplyDamage();
             }
             
-            // Reiniciar el estado de ataque después de un tiempo
-           // StartCoroutine(ResetAttackState());
         }
     }
-    IEnumerator ResetAttackState()
+   
+    // Método llamado por un evento de animación cuando se ejecuta la animación de ataque
+    public void PlayAttackSound()
     {
-        yield return new WaitForSeconds(1.0f); // Esperar un segundo después del ataque
-        isAttacking = false; // Permitir otro ataque después de este tiempo
+        sfx.PlayOneShot(attackSound);
+        isAttacking = false; // Asegúrate de que isAttacking se restablezca cuando termina la animación
     }
-    
     void ApplyDamage()
     {
-        // Verificar si el enemigo está vivo y dentro del rango de ataque
-       // if (enemy!= null  && Vector3.Distance(transform.position, enemy.transform.position) <= 1.5f)
-        //{
-            // Llamar a la función de recibo de daño del enemigo
             enemy.GetComponent<Enemy>().TakeMariaDamage(damage);
-       // }
     }
     
     
 // Función de movimiento del personaje
-
     void Move()
     {
         // Obtener la entrada del teclado
@@ -175,12 +168,11 @@ public class Maria : MonoBehaviour
             transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         }
-
         // Salto del personaje
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             animator.SetTrigger("jump");
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // 5f es la fuerza con la que se va a impulsar el personaje al saltar
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
             sfx.PlayOneShot(jumpSound);
             isGrounded = false;
         }
@@ -219,7 +211,6 @@ public class Maria : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-           // Debug.Log("Maria está en el suelo");
             isGrounded = true;
         }
     }
@@ -229,8 +220,7 @@ public class Maria : MonoBehaviour
     {
         if (isDead) return;
         health -= damage;
-        PlayDamageSound();  // Reproducir sonido de daño
-        //Debug.Log("Maria le queda " + health + " de vida");
+        PlayDamageSound();
         if (health <= 0)
         {
             StartCoroutine(Die());
