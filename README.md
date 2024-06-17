@@ -18,3 +18,5 @@ El enemigo perseguirá al jugador cuando esté dentro del rango de detección y 
 | `Clic Izquierdo`  | Atacar                                  |
 | `Shift Izquierdo` | Correr                                  |
 | `Esc`             | Pausar el juego / Abrir menú de pausa   |
+| `Mouse Scroll In` | Zoom In                                 |
+| `Mouse Scroll Out`| Zoom Out                                |
