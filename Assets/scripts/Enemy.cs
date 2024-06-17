@@ -1,4 +1,5 @@
- using System.Collections;
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,11 @@ public class Enemy : MonoBehaviour
     public float maxChaseDistance = 15f; // Distancia máxima de persecución
     public float attackRange = 1f; // Rango de ataque del enemigo
     public LayerMask detectionLayer; // Capas a considerar en la detección
+    private float attackSoudSpeed = 0.5f;
+    private float walkSoundSpeed = 0.7f;
+    private AudioSource sfx;
+    public AudioClip stepSound;
+    public AudioClip punchSound;
     
     private int attackIndex = 1;
     private float health = 100f;
@@ -22,13 +28,15 @@ public class Enemy : MonoBehaviour
     private bool isReturning = false;
     
     public ProgressBar healthBar; // Referencia al script de la barra de salud
-
+    
+    private Coroutine stepSoundCoroutine;
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>(); // Obtener la referencia al NavMeshAgent
         animator = GetComponent<Animator>(); // Obtener la referencia al Animator
         originalPosition = transform.position; // Guardar la posición original del enemigo
         healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al inicio
+        sfx = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -65,6 +73,7 @@ public class Enemy : MonoBehaviour
             isReturning = false;
             animator.SetBool("walking", false); // Detener animación de caminar
             healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al regresar
+            StopStepSound();
         }
     }
 
@@ -111,6 +120,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.SetDestination(originalPosition);
         animator.SetBool("walking", true); // Iniciar animación de caminar al volver a la posición original
         healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al dejar de perseguir
+        StopStepSound();
     }
     
     // Función que recibe daño
@@ -119,7 +129,7 @@ public class Enemy : MonoBehaviour
         if (health > 0)
         {
             health -= damage;
-            Debug.Log("Enemigo recibe " + damage + " de daño. Vida restante: " + health);
+            //Debug.Log("Enemigo recibe " + damage + " de daño. Vida restante: " + health);
             if (health <= 0)
             {
                 Die();
@@ -135,6 +145,7 @@ public class Enemy : MonoBehaviour
         isDead = true;
         navMeshAgent.isStopped = true;
         healthBar.gameObject.SetActive(false); // Ocultar la barra de salud al morir
+        StopStepSound();
     }
 
     private void MoveTowardsPlayer()
@@ -142,6 +153,10 @@ public class Enemy : MonoBehaviour
         if (player != null && navMeshAgent != null)
         {
             //animacion de caminar hacia el jugador
+            if (stepSoundCoroutine == null)
+            {
+                stepSoundCoroutine = StartCoroutine(PlayStepSound());
+            }
             animator.SetBool("walking", true);
             navMeshAgent.SetDestination(player.position); // Moverse hacia el jugador
         }
@@ -172,9 +187,11 @@ public class Enemy : MonoBehaviour
         {
             isAttacking = true;
             navMeshAgent.isStopped = true;
+            navMeshAgent.velocity = Vector3.zero;
             
             float attackDuration = GetAttackAnimationDuration();
-            // Invocar el daño en la mitad del tiempo de la animación
+            float damageTime = attackDuration * 0.5f;
+            StartCoroutine(PlaySound(attackSoudSpeed));
             Invoke("MakeDamage", attackDuration / 2f);
 
             if (attackIndex == 1)
@@ -194,7 +211,31 @@ public class Enemy : MonoBehaviour
             Invoke("ResetAttack", 1f); // Reiniciar el ataque después de 1 segundo
         }
     }
+    
+    private IEnumerator PlaySound(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        sfx.PlayOneShot(punchSound);
+    }
 
+    private IEnumerator PlayStepSound()
+    {
+        while (isChasing && !isDead && navMeshAgent.velocity.magnitude > 0.1f)
+        {
+            sfx.PlayOneShot(stepSound, 0.3f);
+            yield return new WaitForSeconds(walkSoundSpeed);
+        }
+        stepSoundCoroutine = null;
+    }
+    
+    private void StopStepSound()
+    {
+        if (stepSoundCoroutine != null)
+        {
+            StopCoroutine(stepSoundCoroutine);
+            stepSoundCoroutine = null;
+        }
+    }
     
     // Obtener la duración de la animación de ataque actual
     private float GetAttackAnimationDuration()
@@ -249,5 +290,3 @@ public class Enemy : MonoBehaviour
         }
     }
 }
-
-

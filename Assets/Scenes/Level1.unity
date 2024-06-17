@@ -3861,12 +3861,12 @@ MonoBehaviour:
   speed: 2
   jumpForce: 45
   gravityScale: 10
-  runSpeed: 5
+  runSpeed: 4
   isDead: 0
   cinemachineFreeLook: {fileID: 1958034593}
   zoomSpeed: 2
-  minZoom: 5
-  maxZoom: 15
+  minZoom: 2
+  maxZoom: 10
   healthBar: {fileID: 150701412}
 --- !u!136 &1159053977
 CapsuleCollider:
@@ -3879,9 +3879,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.23546255
-  m_Height: 1.2273246
+  m_Height: 1.7501054
   m_Direction: 1
-  m_Center: {x: 0.010854691, y: 0.59169096, z: 4.333478e-13}
+  m_Center: {x: 0.010854691, y: 0.85308135, z: 4.333478e-13}
 --- !u!82 &1159053980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4079,7 +4079,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199576654}
-  m_LocalRotation: {x: 0.24214597, y: 0.0008230508, z: -0.000397753, w: 0.9702394}
+  m_LocalRotation: {x: 0.24214597, y: 0.0008230508, z: -0.0003977083, w: 0.9702394}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5539,7 +5539,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599603446}
-  m_LocalRotation: {x: 0.19739026, y: 0.49804878, z: -0.11757337, w: 0.8361585}
+  m_LocalRotation: {x: 0.19739027, y: 0.49804878, z: -0.11757338, w: 0.8361585}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5863,7 +5863,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677071803}
-  m_LocalRotation: {x: 0.22445773, y: 0.00083023316, z: -0.00038270655, w: 0.97448343}
+  m_LocalRotation: {x: 0.22445774, y: 0.0008301437, z: -0.00038268045, w: 0.97448343}
   m_LocalPosition: {x: 0.0036560297, y: 0.40827692, z: 1.9578798}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6122,9 +6122,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.22959745
-  m_Height: 1.7613156
+  m_Height: 2.355865
   m_Direction: 1
-  m_Center: {x: 0, y: 0.73843277, z: 0.012193799}
+  m_Center: {x: 0, y: 1.0357075, z: 0.012193799}
 --- !u!1 &1858983690
 GameObject:
   m_ObjectHideFlags: 0
@@ -7082,7 +7082,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f4c1d297f9af6b64fa70884a95cbc877,
         type: 3}
       propertyPath: m_Name
-      value: Nightshade J Friedrich
+      value: Nightshade
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f4c1d297f9af6b64fa70884a95cbc877,
         type: 3}

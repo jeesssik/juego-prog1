@@ -124,22 +124,13 @@ public class Maria : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         bool isRunning = Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift); // Detectar si se está presionando la tecla Shift para correr
-
-        // Ajustar la velocidad según si el personaje está corriendo o caminando
         float currentSpeed = isRunning ? runSpeed : speed;
-        // Ajuste de intervalo de pasos según si corre o camina
         float currentStepInterval = isRunning ? runStepInterval : stepInterval; // Ajustar el intervalo de pasos
-
-        // Rotar el personaje sobre su eje
+        
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
-
-        // Calcular el movimiento del personaje hacia adelante y hacia atrás
         Vector3 movement = transform.forward * verticalInput * currentSpeed * Time.deltaTime;
-
-        // Aplicar el movimiento al personaje
         transform.Translate(movement, Space.World);
-
-        // Controlar las animaciones según la dirección del movimiento y si está corriendo
+        
         if (verticalInput > 0f) // Hacia adelante
         {
             PlayFootstep(currentStepInterval, 0.2f);
